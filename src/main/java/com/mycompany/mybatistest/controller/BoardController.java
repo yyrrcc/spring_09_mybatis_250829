@@ -29,4 +29,37 @@ public class BoardController {
 		
 		return "boardlist";
 	}
+	
+	@RequestMapping (value = "/boardwrite")
+	public String boardwrite() {
+		return "boardwrite";
+	}
+	
+	@RequestMapping (value = "/boardwriteOk")
+	public String boardwriteOk(HttpServletRequest request, Model model) {
+		String btitle = request.getParameter("btitle");
+		String bcontent = request.getParameter("bcontent");
+		String bname = request.getParameter("bname");
+		IDao iDao = sqlSession.getMapper(IDao.class);
+		iDao.boardWriteDao(btitle, bcontent, bname);
+		return "redirect:boardlist";
+	}
+	
+	@RequestMapping (value = "/delete")
+	public String delete() {
+		return "delete";
+	}
+	
+	@RequestMapping (value = "/deleteOk")
+	public String deleteOk(HttpServletRequest request, Model model) {
+		int bnum = Integer.parseInt(request.getParameter("bnum"));
+		IDao iDao = sqlSession.getMapper(IDao.class);
+		int result = iDao.boardDeleteDao(bnum);
+		if (result == 0) {
+			model.addAttribute("deleteErrorMsg", "글 삭제 실패 됐습니다.");
+			return "delete";
+		} else {
+			return "redirect:boardlist";
+		}
+	}
 }
