@@ -16,6 +16,19 @@
 	
 	<delete id="boardDeleteDao">
 		DELETE FROM boardtbl WHERE bnum = #{param1 }
-	</delete>	
+	</delete>
+	
+	<!-- 모든 글의 개수 받아오기 -->
+	<select id="boardCount" resultType="int">
+		SELECT count(*) FROM boardtbl
+	</select>
+	
+	<select id="contentView" resultType="com.mycompany.mybatistest.dto.BoardDto">
+		SELECT * FROM boardtbl WHERE bnum = #{param1 }
+	</select>	
+	
+	<update id="contentModify">
+		UPDATE boardtbl SET btitle = #{param1 }, bcontent = #{param2 }, bname = #{param3 } WHERE bnum = #{param4 }
+	</update>
 
 </mapper>    

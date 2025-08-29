@@ -24,9 +24,9 @@ public class BoardController {
 		
 		IDao iDao = sqlSession.getMapper(IDao.class);
 		List<BoardDto> boardDtos = iDao.boardlistDao();
-		
+		int boardCount = iDao.boardCount();
 		model.addAttribute("boardDtos", boardDtos);
-		
+		model.addAttribute("boardCount", boardCount);
 		return "boardlist";
 	}
 	
@@ -62,4 +62,41 @@ public class BoardController {
 			return "redirect:boardlist";
 		}
 	}
+	
+	
+	@RequestMapping (value = "/contentview")
+	public String contentview(HttpServletRequest request, Model model) {
+		int bnum = Integer.parseInt(request.getParameter("bnum"));
+		IDao iDao = sqlSession.getMapper(IDao.class);
+		BoardDto boardDto = iDao.contentView(bnum);
+		model.addAttribute("boardDto", boardDto);
+		return "contentview";
+	}
+		
+	
+	@RequestMapping (value = "/contentmodify")
+	public String contentmodify(HttpServletRequest request, Model model) {
+		int bnum = Integer.parseInt(request.getParameter("bnum"));
+		IDao iDao = sqlSession.getMapper(IDao.class);
+		BoardDto boardDto = iDao.contentView(bnum);
+		model.addAttribute("boardDto", boardDto);
+		return "contentmodify";
+	}
+	
+	@RequestMapping (value = "/contentModifyOk")
+	public String contentModifyOk(HttpServletRequest request, Model model) {
+		int bnum = Integer.parseInt(request.getParameter("bnum"));
+		String btitle = request.getParameter("btitle");
+		String bcontent = request.getParameter("bcontent");
+		String bname = request.getParameter("bname");
+		IDao iDao = sqlSession.getMapper(IDao.class);
+		int result = iDao.contentModify(btitle, bcontent, bname, bnum);
+		if (result == 0) { // 수정 실패 시
+			return "redirect:contentmodify?bnum=" + bnum;
+		}
+		BoardDto boardDto = iDao.contentView(bnum);
+		model.addAttribute("boardDto", boardDto);
+		return "contentview";
+	}
+	
 }

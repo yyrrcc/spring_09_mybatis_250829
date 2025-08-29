@@ -10,11 +10,13 @@
 </head>
 <body>
 	<h3>게시판 글목록 입니다.</h3>
-	<h4>총 게시글 수 : []</h4>
+	<h4>총 게시글 수 : ${boardCount }</h4>
 	<hr />
 	글번호 / 글제목 / 글쓴이 / 조회수 / 작성일 <br />
 	<c:forEach items="${boardDtos }" var="b">
-	${b.bnum } / ${b.btitle } / ${b.bname } / ${b.bhit } /${b.bdate } <br /> 
+	${b.bnum } / 
+	<a href="contentview?bnum=${b.bnum}">${b.btitle }</a> / 
+	${b.bname } / ${b.bhit } /${b.bdate } <br /> 
 	</c:forEach>
 	<hr />
 	<a href="boardwrite">글쓰기</a>

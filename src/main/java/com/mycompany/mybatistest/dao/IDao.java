@@ -17,4 +17,13 @@ public interface IDao {
 	
 	// 삭제
 	public int boardDeleteDao(int bnum);
+	
+	// 모든 글 개수 가져오기
+	public int boardCount();
+	
+	// 글 내용 보기
+	public BoardDto contentView(int bnum);
+	
+	// 글 수정
+	public int contentModify(String btitle, String bcontent, String bname, int bnum);
 }
